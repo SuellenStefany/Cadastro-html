@@ -8,34 +8,42 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
   <title>Home</title>
   <style>
-          .dropbtn {
-            color: white;
-            cursor: pointer;
-          }
-
-          .dropdown {
-            position: relative;
-            display: inline-block;
-          }
-
-          .dropdown-content {
-            display: none;
-            position: absolute;
-           right: 0;
-            background-color: #f9f9f9;
-            min-width: 120px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-          }
-
-          .dropdown-content a {
-            color: black;
-            padding: 10px 14px;
-            text-decoration: none;
-            display: block;
-          }
-          .dropdown-content a:hover {background-color: #f1f1f1;}
-          .dropdown:hover .dropdown-content {display: block;}   
+    .btn {
+      border-style: solid;
+      border-width: 2px;
+      border-color: rgb(156 163 175);
+      background-color: rgb(229 231 235);
+    }
+    .btn-violet:hover {
+      background-color: rgb(221 214 254);
+      border-color: rgb(167 139 250);
+      font-weight: 600;
+    }
+    .dropbtn {
+      color: white;
+      cursor: pointer;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: #000000;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {background-color: #f1f1f1;}
+    .dropdown:hover .dropdown-content {display: block;}   
   </style>
    <script>
     tailwind.config = {
@@ -49,30 +57,33 @@
       }
     }
   </script>
- 
 </head>
 <body>
-
   <div class="flex flex-col bg-body h-screen md:h-screen">  
     <div class="flex justify-between mx-1">
-      <h2 class="text-lg">Cadastro de pesssoas</h2>
-        <button type="submit" 
-                class=" border-solid border-2 border-gray-400 w-28 h-8 my-1 mr-1 text-sm bg-gray-200 hover:bg-violet-200 hover:border-violet-400 rounded-md"
-                onclick="window.location.href = 'cadastro.html';" >
-          <i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar
+      <a class="mt-2">
+        <i class="fa fa-home mr-1" aria-hidden="true"></i>Cadastro de pesssoas
+      </a>
+        <button class="btn btn-violet w-28 h-8 mt-2 mr-1 text-sm rounded-md" onclick="window.location.href = 'cadastro.html';" >
+          <i class="fa fa-user-plus mr-1" aria-hidden="true"></i> Adicionar
         </button>
     </div> 
     <div class="mt-2 mx-2 mb-4 bg-pesquisa rounded-sm shadow-inner h-full">
       <p class="text-lg pr-4 ml-2 ">Pesquisa</p>
       <!-- Input e buton-->
-        <div class="mt-6 ml-6 w-96  ">
+        <div class="mt-6 ml-6 w-96 ">
+          <span class="font-semibold">Nome</span>
             <div class="flex space-x-6">
-              <div class= "grid grid-rows-2">
-                <span class="font-bold">Nome</span>
-                <input id="pesquisa" type="text" class=" w-80 h-8 border-2 border-gray-300 shadow-md"/>
+              <div class= "grid grid-rows-2 ">
+                  <div class="absolute">
+                    <svg class="text-slate-400 h-5 w-5 mt-1 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <input id="pesquisa" type="text" placeholder="Pesquisar" class="pl-6 w-80 h-8 border-2 border-gray-300 hover:bg-gray-100 hover:border-gray-400 shadow-md "/>        
               </div>
-              <div class="mt-auto text-sm ">
-                <button id="filtrar" class="border-solid border-2 border-gray-400 w-16 h-8  hover:bg-violet-200 hover:border-violet-400 rounded-md">Filtrar</button>
+              <div class="text-sm">
+                <button id="filtrar" class="btn btn-violet w-16 h-8 rounded-md">Filtrar</button>
               </div> 
             </div>
         </div>
@@ -116,75 +127,71 @@
           if (result.isConfirmed) {
             const id = $(e.currentTarget).closest("tr").attr("data-id");
             $.ajax({
-            url: `https://localhost:44357/usuarios/${id}`,
-            method: 'DELETE',
-            error:(error)=>{
-              if(error.status === 404){
-                return Swal.fire({
-                  icon: "info",
-                  text: "Usuário não encontrado",
-                  showConfirmButton: false,
-                  timer:3000
-                });
-              }
-            },
-            crossDomain: true,  
-          }).then((response)=>{
-            Swal.fire("Usuário deletado", "", "success");
-            setTimeout(()=>{
-              window.location.reload();
-            },3000);
-          });
+              url: `https://localhost:44357/usuarios/${id}`,
+              method: 'DELETE',
+              error:(error)=>{
+                if(error.status === 404){
+                  return Swal.fire({
+                    icon: "info",
+                    text: "Usuário não encontrado",
+                    showConfirmButton: false,
+                    timer:3000
+                  });
+                }
+              },
+              crossDomain: true,  
+            }).then((response)=>{
+              Swal.fire("Usuário deletado", "", "success");
+              setTimeout(()=>{
+                window.location.reload();
+              },3000);
+            });
             
           }
-        });//fim swal
+        });
       });
     }
     function limpaTabela(){
       $("#tabela tbody tr").each((index, element) => {
-            $(element).remove();
-          });
+          $(element).remove();
+      });
     }
     function carregarUsuarios(){
       Swal.fire({title: "Carregando...", allowOutsideClick: false});
       Swal.showLoading();
       limpaTabela();
-      $.ajax
-            ({
-            url: `https://localhost:44357/usuarios`,
-            method: 'GET',
-            crossDomain: true,  
-          }).then((response)=>{
-            response.forEach((usuario)=>{
-              const tr = $(`<tr data-id="${usuario.id}" class="border border-slate-300 bg-black/[0.02] dark:border-white/10"></tr>`);
-              const td = $(`<td class="border border-slate-300">${usuario.nome}</td>`);
-              const td1 = $(`<td class="border border-slate-300">${usuario.documento}</td>`);
-              const td2 = $(`<td class="border border-slate-300">${usuario.email}</td>`);
-              const td3 = $(`<td class="border border-slate-300 text-center"><div class="dropdown"><button  class="dropbtn w-6 bg-sky-400 rounded-md border-solid border-2 border-sky-600 hover:bg-violet-200 hover:border-violet-400 dark:hover:text-violet-400 "><i class="fa fa-angle-down" aria-hidden="true"></i><div class="dropdown-content"><a href="cadastro.html?id=${usuario.id}" class="editar">Editar</a><a class="excluir">Excluir</a></div></button></div></td>`);
-              tr.append(td,td1,td2,td3);
-              $("#tabela").append(tr);
-            })
-            excluir();
-            Swal.close();
+      $.ajax({
+        url: `https://localhost:44357/usuarios`,
+        method: 'GET',
+        crossDomain: true,  
+      }).then((response)=>{
+          response.forEach((usuario)=>{
+            const tr = $(`<tr data-id="${usuario.id}" class="border border-slate-300 bg-black/[0.02] dark:border-white/10"></tr>`);
+            const td = $(`<td class="border border-slate-300">${usuario.nome}</td>`);
+            const td1 = $(`<td class="border border-slate-300">${usuario.documento}</td>`);
+            const td2 = $(`<td class="border border-slate-300">${usuario.email}</td>`);
+            const td3 = $(`<td class="border border-slate-300 text-center"><div class="dropdown"><button  class="dropbtn w-6 bg-sky-400 rounded-md border-solid border-2 border-sky-600 hover:bg-violet-200 hover:border-violet-400 dark:hover:text-violet-400 "><i class="fa fa-angle-down" aria-hidden="true"></i><div class="dropdown-content"><a href="cadastro.html?id=${usuario.id}" class="editar">Editar</a><a class="excluir">Excluir</a></div></button></div></td>`);
+            tr.append(td,td1,td2,td3);
+            $("#tabela").append(tr);
           })
+          excluir();
+          Swal.close();
+      })
     }
-
     $(document).ready(()=>{
-      carregarUsuarios();
-      
+      carregarUsuarios(); 
       $("#filtrar").on("click",()=>{
         const pesquisa = $("#pesquisa").val();
         if(pesquisa !== ""){
           limpaTabela();
           Swal.fire({title: "Pesquisando...", allowOutsideClick: false});
           Swal.showLoading();
-          $.ajax
-            ({
-              url: `https://localhost:44357/usuarios/search`,
-              method: 'POST',
-              crossDomain: true,
-              data: JSON.stringify({nome:pesquisa}),
-              contentType: "application/json",
+          $.ajax ({
+            url: `https://localhost:44357/usuarios/search`,
+            method: 'POST',
+            crossDomain: true,
+            data: JSON.stringify({nome:pesquisa}),
+            contentType: "application/json",
           }).then((response)=>{
             response.forEach((usuario)=>{
               const tr = $(`<tr data-id="${usuario.id}" class="border border-slate-300 bg-black/[0.02] dark:border-white/10"></tr>`);
