@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <script  src = "https://cdn.tailwindcss.com"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+  <title>Home</title>
+  <style>
+          .dropbtn {
+            color: white;
+            cursor: pointer;
+          }
+
+          .dropdown {
+            position: relative;
+            display: inline-block;
+          }
+
+          .dropdown-content {
+            display: none;
+            position: absolute;
+           right: 0;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+          }
+
+          .dropdown-content a {
+            color: black;
+            padding: 10px 14px;
+            text-decoration: none;
+            display: block;
+          }
+          .dropdown-content a:hover {background-color: #f1f1f1;}
+          .dropdown:hover .dropdown-content {display: block;}   
+  </style>
+   <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            body: '#cbd5e1',
+            pesquisa: '#f8fafc',
+          }
+        }
+      }
+    }
+  </script>
+ 
+</head>
+<body>
+
+  <div class="flex flex-col bg-body h-screen md:h-screen">  
+    <div class="flex justify-between mx-1">
+      <h2 class="text-lg">Cadastro de pesssoas</h2>
+        <button type="submit" 
+                class=" border-solid border-2 border-gray-400 w-28 h-8 my-1 mr-1 text-sm bg-gray-200 hover:bg-violet-200 hover:border-violet-400 rounded-md"
+                onclick="window.location.href = 'cadastro.html';" >
+          <i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar
+        </button>
+    </div> 
+    <div class="mt-2 mx-2 mb-4 bg-pesquisa rounded-sm shadow-inner h-full">
+      <p class="text-lg pr-4 ml-2 ">Pesquisa</p>
+      <!-- Input e buton-->
+        <div class="mt-6 ml-6 w-96  ">
+            <div class="flex space-x-6">
+              <div class= "grid grid-rows-2">
+                <span class="font-bold">Nome</span>
+                <input id="pesquisa" type="text" class=" w-80 h-8 border-2 border-gray-300 shadow-md"/>
+              </div>
+              <div class="mt-auto text-sm ">
+                <button id="filtrar" class="border-solid border-2 border-gray-400 w-16 h-8  hover:bg-violet-200 hover:border-violet-400 rounded-md">Filtrar</button>
+              </div> 
+            </div>
+        </div>
+        <!-- Fim Input e buton-->
+        <!-- Table-->
+        <div class ="flex flex-col mt-10 mx-6 h-80">
+          <div class="sm:-mx-6 lg:-mx-8">
+            <div class="w-full py-2 sm:px-6 lg:px-8">
+              <div class="overflow-visible">
+                <table id="tabela" class="table-fixed w-full text-sm text-surface ">
+                  <thead class="border border-slate-300 bg-white font-medium dark:border-white/10 dark:bg-body-dark">
+                    <tr>
+                      <th class="border border-slate-300">Nome</th>
+                      <th class="border border-slate-300 w-60">Documento</th>
+                      <th class="border border-slate-300">E-mail</th>
+                      <th class="border border-slate-300 w-40">Opções</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+                
+              </div>
+            </div>
+        </div>
+        <!-- Fim Table-->
+    </div>
+  </div>
+  <script>
+    function excluir(){
+      $(".excluir").on("click",(e)=>{
+        e.preventDefault();
+        Swal.fire({
+          title: "Exclusão",
+          text:"Deseja excluir esse usúario?",
+          showDenyButton: true,
+          confirmButtonText: "Sim",
+          denyButtonText: "Não"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const id = $(e.currentTarget).closest("tr").attr("data-id");
+            $.ajax({
+            url: `https://localhost:44357/usuarios/${id}`,
+            method: 'DELETE',
+            error:(error)=>{
+              if(error.status === 404){
+                return Swal.fire({
+                  icon: "info",
+                  text: "Usuário não encontrado",
+                  showConfirmButton: false,
+                  timer:3000
+                });
+              }
+            },
+            crossDomain: true,  
+          }).then((response)=>{
+            Swal.fire("Usuário deletado", "", "success");
+            setTimeout(()=>{
+              window.location.reload();
+            },3000);
+          });
+            
+          }
+        });//fim swal
+      });
+    }
+    function limpaTabela(){
+      $("#tabela tbody tr").each((index, element) => {
+            $(element).remove();
+          });
+    }
+    function carregarUsuarios(){
+      Swal.fire({title: "Carregando...", allowOutsideClick: false});
+      Swal.showLoading();
+      limpaTabela();
+      $.ajax
+            ({
+            url: `https://localhost:44357/usuarios`,
+            method: 'GET',
+            crossDomain: true,  
+          }).then((response)=>{
+            response.forEach((usuario)=>{
+              const tr = $(`<tr data-id="${usuario.id}" class="border border-slate-300 bg-black/[0.02] dark:border-white/10"></tr>`);
+              const td = $(`<td class="border border-slate-300">${usuario.nome}</td>`);
+              const td1 = $(`<td class="border border-slate-300">${usuario.documento}</td>`);
+              const td2 = $(`<td class="border border-slate-300">${usuario.email}</td>`);
+              const td3 = $(`<td class="border border-slate-300 text-center"><div class="dropdown"><button  class="dropbtn w-6 bg-sky-400 rounded-md border-solid border-2 border-sky-600 hover:bg-violet-200 hover:border-violet-400 dark:hover:text-violet-400 "><i class="fa fa-angle-down" aria-hidden="true"></i><div class="dropdown-content"><a href="cadastro.html?id=${usuario.id}" class="editar">Editar</a><a class="excluir">Excluir</a></div></button></div></td>`);
+              tr.append(td,td1,td2,td3);
+              $("#tabela").append(tr);
+            })
+            excluir();
+            Swal.close();
+          })
+    }
+
+    $(document).ready(()=>{
+      carregarUsuarios();
+      
+      $("#filtrar").on("click",()=>{
+        const pesquisa = $("#pesquisa").val();
+        if(pesquisa !== ""){
+          limpaTabela();
+          Swal.fire({title: "Pesquisando...", allowOutsideClick: false});
+          Swal.showLoading();
+          $.ajax
+            ({
+              url: `https://localhost:44357/usuarios/search`,
+              method: 'POST',
+              crossDomain: true,
+              data: JSON.stringify({nome:pesquisa}),
+              contentType: "application/json",
+          }).then((response)=>{
+            response.forEach((usuario)=>{
+              const tr = $(`<tr data-id="${usuario.id}" class="border border-slate-300 bg-black/[0.02] dark:border-white/10"></tr>`);
+              const td = $(`<td class="border border-slate-300">${usuario.nome}</td>`);
+              const td1 = $(`<td class="border border-slate-300">${usuario.documento}</td>`);
+              const td2 = $(`<td class="border border-slate-300">${usuario.email}</td>`);
+              const td3 = $(`<td class="border border-slate-300 text-center"><div class="dropdown"><button  class="dropbtn w-6 bg-sky-400 rounded-md border-solid border-2 border-sky-600 hover:bg-violet-200 hover:border-violet-400 dark:hover:text-violet-400 "><i class="fa fa-angle-down" aria-hidden="true"></i><div class="dropdown-content"><a href="cadastro.html?id=${usuario.id}" class="editar">Editar</a><a class="excluir">Excluir</a></div></button></div></td>`);
+              tr.append(td,td1,td2,td3);
+              $("#tabela").append(tr);
+            })
+            excluir();
+            Swal.close();
+          });
+        }else{
+          carregarUsuarios();
+        }
+      })
+    });
+  </script>
+</body>
+</html>

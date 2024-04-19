@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <script  src = "https://cdn.tailwindcss.com"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+  <title>Cadastro</title>
+   <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            body: '#cbd5e1',
+            pesquisa: '#f8fafc',
+            dados: '#e5e5e5',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="flex flex-col bg-body h-screen md:h-screen"> 
+    <div class="mt-2 mx-2 mb-4 bg-pesquisa rounded-sm shadow-inner h-full">
+      <div class="flex justify-between bg-dados">
+        <p class="text-lg pr-4 ml-2 ">Dados da pessoa</p>
+        <button class="mr-1 text-sm" onclick="window.location.href = 'index.html';">
+          <i class="fa fa-home" aria-hidden="true"></i>Home
+        </button>
+        
+      </div> 
+      <!-- Input e buton-->
+
+            <div class="grid grid-cols-2  mx-10 mt-6 gap-6">
+              <div class= "grid grid-rows-2">
+                <span class="font-bold">Nome completo*</span>
+                <input type="text" id="nome" class="border-2 border-gray-300 shadow-md"/>
+              </div>
+              <div class= "grid grid-rows-2">
+                <span class="font-bold">E-mail*</span>
+                <input type="email" id="email" class="w-80 border-2 border-gray-300 shadow-md" required/>
+              </div>
+              <div class= "grid grid-cols-3 gap-12">
+                <div class= "grid grid-rows-2">
+                  <span class="font-bold">Tipo da pessoa</span>
+                  <select id="tipo" class="w-40 border-2 border-gray-300 shadow-md">
+                    <option value="fisica">Pessoa Física</option>
+                    <option value="juridica">Pessoa Jurídica</option>
+                  </select>
+                </div>
+                <div class= "grid grid-rows-2">
+                  <span class="font-bold">CPF/CNPJ*</span>
+                  <input type="text" id="documento" class="w-40 border-2 border-gray-300 shadow-md"/>
+                </div>
+                <div class= "grid grid-rows-2">
+                  <span class="font-bold">CEP*</span>
+                  <input type="text" id="cep" class="w-40 border-2 border-gray-300 shadow-md"/>
+                </div>
+              </div>
+              <div class= "grid grid-rows-2">
+                <span class="font-bold">Número</span>
+                <input type="text" id="numero" class="w-80 border-2 border-gray-300 shadow-md"/>
+              </div>
+              <div class= "grid grid-rows-2 ">
+                <span class="font-bold">Endereço</span>
+                <input type="text" id="endereco" class="border-2 border-gray-300 shadow-md" disabled/>
+              </div>
+              <div class= "grid grid-rows-2">
+                <span class="font-bold">Bairro</span>
+                <input type="text" id="bairro" class="w-80 border-2 border-gray-300 shadow-md" disabled/>
+              </div>
+              <div class= "grid grid-cols-2 gap-80">
+                <div class= "grid grid-rows-2">
+                  <span class="font-bold">Cidade</span>
+                  <input type="text" id="cidade" class="w-80 border-2 border-gray-300 shadow-md" disabled/>
+                </div>
+                <div class= "grid grid-rows-2">
+                  <span class="font-bold">UF</span>
+                  <select type="text" id="uf" class="w-32 border-2 border-gray-300 shadow-md" disabled>
+                    <option value=""></option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                </div>
+              </div>
+               
+            </div>
+            <div class="mt-16 mx-10 bg-body h-20 text-sm  content-center shadow-md">
+              <div class="flex justify-between mx-2 h-14 px-4 bg-pesquisa ">
+                <button id="cancelar" class="border-solid border-2 border-gray-400 w-20 h-8 my-auto bg-gray-200 hover:bg-violet-200 hover:border-violet-400 rounded-md" onclick="window.location.href = 'index.html';">Cancelar</button>
+                <button id="enviar" class="border-solid border-2 border-gray-400 w-20 h-8 my-auto bg-gray-200 hover:bg-violet-200 hover:border-violet-400 rounded-md">Gravar</button>
+              </div>
+              
+            </div>
+        </div>
+        <!-- Fim Input e buton-->
+   
+  </div>
+  <script>
+    function validarCEP(cep){
+      return /^\d{8}$/.test(cep.replace(/[^\d]+/g, ""));
+    }
+    function validarDocumento(documento){
+      return /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/.test(documento);
+    }
+    
+    $(document).ready(()=>{
+      const param = location.search.replace("?id=","");
+      if(param !== ""){
+        Swal.fire({title: "Carregando...", allowOutsideClick: false});
+        Swal.showLoading();
+        $.ajax
+            ({
+            url: `https://localhost:44357/usuarios/${param}`,
+            method: 'GET',
+            crossDomain: true,
+          }).then((response)=>{
+            if(response.length) {
+              const {
+                nome, email, tipo, documento, cep,
+                numero, endereco, bairro, cidade, uf
+              } = response[0];
+
+              $("#nome").val(nome);
+              $("#email").val(email);
+              $("#tipo").val(tipo);
+              $("#documento").val(documento);
+              $("#cep").val(cep);
+              $("#numero").val(numero);
+              $("#endereco").val(endereco);
+              $("#bairro").val(bairro);
+              $("#cidade").val(cidade);
+              $("#uf").val(uf);
+            }
+            Swal.close();
+          });
+      }
+
+      $("#enviar").on("click",(e)=>{
+        e.preventDefault();
+        const nome = $("#nome").val()
+        const email = $("#email").val()
+        const tipo = $("#tipo").val()
+        const documento = $("#documento").val()
+        const cep = $("#cep").val()
+        const numero = $("#numero").val()
+        const endereco = $("#endereco").val()
+        const bairro = $("#bairro").val()
+        const cidade = $("#cidade").val()
+        const uf = $("#uf").val()
+
+        if(validarCEP(cep) && validarDocumento(documento) 
+          && nome !== "" && email !== ""){
+
+            $.ajax
+            ({
+              url: param !== "" ? `https://localhost:44357/usuarios/${param}` : 'https://localhost:44357/usuarios',
+              type: param !== "" ? 'PUT' : 'POST',
+              data: JSON.stringify({nome,email,tipo,documento,cep,numero,endereco,bairro,cidade,uf}),
+              contentType: "application/json",
+              error:(error)=>{
+                if(error.status === 409){
+                  return Swal.fire({
+                    icon: "info",
+                    text: "Documento já foi cadastrado",
+                    showConfirmButton: false,
+                    timer:3000
+                  });
+                }
+                return Swal.fire({
+                    icon: "error",
+                    text: "Falha de comunicação....",
+                    showConfirmButton: false,
+                    timer:3000
+                  });
+              },
+            }).then((resp)=>{
+              return Swal.fire({
+                title: param !== "" ? "Usuário atualizado" : "Usuário cadastrado",
+                icon: "success",
+                showConfirmButton: false,
+                timer:3000
+              });
+            })  
+            setTimeout(()=>{
+              window.location.reload();
+            },3000);
+            return;
+        }
+        return Swal.fire({
+            icon: "error",
+            text: "Preencha os campos obrigatórios",
+
+          });
+      })
+      //Mascaras Padrões
+      $("#documento").mask("000.000.000-00");
+      $("#cep").mask("00000-000");
+      //Mascaras tipo de Pessoa
+      $("#tipo").on("change",(e)=>{
+        const tipo = e.currentTarget.value
+        switch( tipo){
+          case "fisica": $("#documento").mask("000.000.000-00");
+          break;
+          case "juridica": $("#documento").mask("00.000.000/0000-00");
+          break;
+        }
+      })
+      //Validador de documento
+      $("#documento").on("change",(e)=>{
+        const documento = e.currentTarget.value
+        if(validarDocumento(documento)){
+          console.log("ok")
+        }else{
+          Swal.fire({
+            icon: "error",
+            text: "CPF ou CNPJ inválido",
+
+          });
+        }
+      })
+      //Validador de CEP
+      $("#cep").on("blur",(e)=>{
+        const cep = e.currentTarget.value
+        if(validarCEP(cep)){
+          $.ajax(
+          {
+            url: `https://viacep.com.br/ws/${cep}/json/`
+          }
+          ).done((json)=>{ //retorno
+            const { logradouro, bairro, localidade, uf } = json;
+            $("#endereco").val(logradouro)
+            $("#bairro").val(bairro)
+            $("#cidade").val(localidade)
+            $("#uf").val(uf)
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            text: "CEP inválido",
+          });
+          $("#cep").val("")
+        }
+      })
+    })
+  </script>
+</body>
+</html>
